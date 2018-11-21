@@ -3,4 +3,8 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">lab.freitas.net</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">insecure.freitas.net</domain>
+    </domain-config>
+
 </network-security-config>

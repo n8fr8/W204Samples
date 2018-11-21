@@ -24,9 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecureNetworkMainActivity" android:exported="false"/>
-        <activity android:name=".SecureNetworkAndStorageMainActivity"/>
-        <activity android:name=".SecureNetworkMainWithProxyingActivity"/>
+        <activity android:name=".SecureNetworkMainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.OPEN_DOCUMENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SecureNetworkAndStorageMainActivity"  android:exported="false"/>
+        <activity android:name=".SecureNetworkMainWithProxyingActivity" android:exported="false"/>
         <activity android:name=".SecureNetworkAndStorageAndDeviceVerificationMainActivity"/>
 
     </application>

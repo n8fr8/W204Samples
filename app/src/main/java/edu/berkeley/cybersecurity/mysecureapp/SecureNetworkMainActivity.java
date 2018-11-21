@@ -27,7 +27,7 @@ public class SecureNetworkMainActivity extends MainActivity {
         client = new OkHttpClient.Builder()
 
                 //limit the cipher suites
-                .connectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS, ConnectionSpec.RESTRICTED_TLS))
+                .connectionSpecs(Arrays.asList(ConnectionSpec.RESTRICTED_TLS))
 
                 //ping a certificate
                 .certificatePinner(new CertificatePinner.Builder()
@@ -35,20 +35,7 @@ public class SecureNetworkMainActivity extends MainActivity {
 
                 .build();
 
-        try {
-            StrongOkHttpClientBuilder
-                    .forMaxSecurity(this)
-                    .withTorValidation()
-                    .withBestProxy();
-        }
-        catch (Exception e) {
-            Toast
-                    .makeText(this, e.getMessage(), Toast.LENGTH_LONG)
-                    .show();
-            Log.e(getClass().getSimpleName(),
-                    "Exception loading SO questions", e);
-            finish();
-        }
+
     }
 
 

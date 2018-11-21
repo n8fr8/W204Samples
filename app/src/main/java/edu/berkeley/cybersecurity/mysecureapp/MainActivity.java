@@ -67,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
         doLogin();
 
         String response = downloadData();
-        File fileOuput = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"response.txt");
+
+        File fileOutput = new File(getFilesDir(),"response.txt");
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(fileOuput));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileOutput));
             writer.write(response);
             writer.close();
         } catch (IOException e) {
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             Log.w(TAG,"error saving data",e);
         }
+
         submitData(request.toString());
 
         doLogout();
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean doLogin ()
     {
-        String jsonData = "";
+        String jsonData = "{password:mypassword}";
         try {
             sessionToken = post("/login", jsonData);
             return !TextUtils.isEmpty(sessionToken);

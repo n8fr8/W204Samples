@@ -19,7 +19,7 @@ public class SecureNetworkMainWithProxyingActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        baseUrl = "https://lab.freitas.net/mysecureapp/api/";
+        baseUrl = getIntent().getDataString();
 
         OrbotHelper.get(this).init();
 

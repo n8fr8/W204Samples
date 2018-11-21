@@ -1,5 +1,7 @@
 package edu.berkeley.cybersecurity.mysecureapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,23 +22,33 @@ public class SecureNetworkAndStorageMainActivity extends SecureNetworkMainActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        initSecureStorage("mysecretpassword");
     }
 
     private void initSecureStorage (String passphrase)
     {
         VirtualFileSystem vfs = VirtualFileSystem.get();
-        vfs.createNewContainer(passphrase);
-        vfs.mount(passphrase);
+        File fileVfs = new File("/external/sdcard/myappcontainer.db");
+        if (!fileVfs.exists())
+            vfs.createNewContainer(fileVfs.getPath(),passphrase);
+
+        vfs.mount(fileVfs.getPath(),passphrase);
     }
+
     @Override
     protected void connectToService ()
     {
         doLogin();
 
         String response = downloadData();
-        info.guardianproject.iocipher.File fileOuput = new info.guardianproject.iocipher.File("response.txt");
+
+       // Intent intentWebView = new Intent(this,MySecureBrowser.class);
+       // intentWebView.setData(Uri.parse(response));
+
+        info.guardianproject.iocipher.File fileOutput = new info.guardianproject.iocipher.File("response.txt");
         try {
-            BufferedWriter writer = new BufferedWriter(new info.guardianproject.iocipher.FileWriter(fileOuput));
+            BufferedWriter writer = new BufferedWriter(new info.guardianproject.iocipher.FileWriter(fileOutput));
             writer.write(response);
             writer.close();
         } catch (IOException e) {
