@@ -1,13 +1,20 @@
 package edu.berkeley.cybersecurity.mysecureapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -37,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 
         baseUrl = "http://lab.freitas.net/mysecureapp/api/";
 
+        askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,1);
+
     }
 
     @Override
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         doLogin();
 
         String response = downloadData();
-        File fileOuput = new File(getFilesDir(),"response.txt");
+        File fileOuput = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"response.txt");
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(fileOuput));
             writer.write(response);
@@ -67,8 +76,21 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG,"error saving data",e);
         }
 
+        File fileInput = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),"requests.txt");
+        StringBuffer request = new StringBuffer();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileInput));
 
-        submitData("foo");
+            String line = null;
+
+            while ((line = reader.readLine()) != null)
+                request.append(line).append('\n');
+
+            reader.close();
+        } catch (IOException e) {
+            Log.w(TAG,"error saving data",e);
+        }
+        submitData(request.toString());
 
         doLogout();
     }
@@ -138,5 +160,37 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         Response response = client.newCall(request).execute();
         return response.body().string();
+    }
+
+    private boolean askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 1:
+                askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
+                break;
+        }
+
     }
 }

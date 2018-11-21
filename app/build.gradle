@@ -26,8 +26,18 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-
+    //a great all around library for HTTP comms
     implementation 'com.squareup.okhttp3:okhttp:3.12.0'
 
+    //a tool for improving the security of your network comms and supporting proxying
+    //https://github.com/guardianproject/netcipher
     implementation 'info.guardianproject.netcipher:netcipher:2.0.0-beta1'
+    implementation 'info.guardianproject.netcipher:netcipher-okhttp3:2.0.0-alpha1'
+
+    //one method for inspecting if your device is rooted: https://github.com/scottyab/rootbeer
+    implementation 'com.scottyab:rootbeer-lib:0.0.7'
+
+    //Google SafetyNet
+    implementation 'com.google.android.gms:play-services-safetynet:16.0.0'
+
 }
