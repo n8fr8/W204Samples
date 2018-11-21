@@ -40,4 +40,6 @@ dependencies {
     //Google SafetyNet
     implementation 'com.google.android.gms:play-services-safetynet:16.0.0'
 
+    //secure data storage
+    implementation 'info.guardianproject.iocipher:IOCipherStandalone:0.4'
 }
