@@ -2,32 +2,29 @@ package edu.berkeley.cybersecurity.mysecureapp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
-public class SecureNetworkAndStorageMainActivity extends AppCompatActivity {
+public class SecureNetworkAndStorageMainActivity extends SecureNetworkMainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
     }
 
-    public void doLogin ()
+    @Override
+    protected void connectToService ()
     {
+        doLogin();
 
-    }
+        String response = downloadData();
 
-    public void downloadData ()
-    {
+        if (!TextUtils.isEmpty(response))
+        {
+            //save the data here
+        }
 
-    }
-
-    public void submitData ()
-    {
-
-    }
-
-    public void doLogout ()
-    {
-
+        String mysecretdata = "foobar";
+        submitData(mysecretdata);
+        doLogout();
     }
 }
